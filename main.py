@@ -48,11 +48,9 @@ for f in sorted(os.listdir(path_label_agu)):
   labels.append(os.path.join(path_label_agu,f))
 
 
-s = args.show
 
-print(s,type(s))
 
-for i in range(0,1):
+for i in range(0,6):
 
     k_fold(img,labels,i ,batch = args.batch, epochs = args.epochs , lr = args.lr , n_splits = args.n_splits ,show = args.show)
 

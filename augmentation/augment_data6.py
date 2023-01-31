@@ -40,8 +40,8 @@ def augment_data6(images, masks,path,W=256, H =256):
         y3 = cv2.flip(y, -1 )
 
 
-        x4 = cv2.rotate(x, cv2.cv2.ROTATE_90_CLOCKWISE)
-        y4 = cv2.rotate(y, cv2.cv2.ROTATE_90_CLOCKWISE)
+        x4 = cv2.rotate(x, cv2.ROTATE_90_CLOCKWISE)
+        y4 = cv2.rotate(y, cv2.ROTATE_90_CLOCKWISE)
 
         x5 = cv2.rotate(x, cv2.ROTATE_180)
         y5 = cv2.rotate(y, cv2.ROTATE_180)

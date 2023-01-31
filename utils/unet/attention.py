@@ -3,7 +3,7 @@ import tensorflow as tf
 class ChannelAttention(tf.keras.layers.Layer):
 
     def __init__(self, filters, ratio = 8 ):
-        super(ChannelAttention2, self).__init__()
+        super(ChannelAttention, self).__init__()
         self.filters = filters
         self.ratio = ratio
 
@@ -35,8 +35,8 @@ class SpatialAttention(tf.keras.layers.Layer):
 
     def __init__(self, kernel_size = 7 ):
 
-        super(SpatialAttention2, self).__init__()
-        
+        super(SpatialAttention, self).__init__()
+
         def build(self, input_shape):
             self.conv1 = tf.keras.layers.Conv2D(1, kernel_size = kernel_size, use_bias=True)
 

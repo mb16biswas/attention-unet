@@ -1,5 +1,11 @@
 data/
 
+new_data/
+
+__pycache__/
+
 Pipfile
+
+test.py
 
 Pipfile.lock

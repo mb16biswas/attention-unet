@@ -1,20 +1,27 @@
 import numpy as np
-from dataprocessing.create_image import create_image
-from dataprocessing.create_mask import create_mask
-from dataprocessing.further_processing import further_process
+from utils.dataprocessing.create_image import process_x, process_x2
+from utils.dataprocessing.create_mask import process_y, process_y2
+from utils.dataprocessing.further_processing import further_process
 import segmentation_models_3D as sm
-from tf.keras.callbacks import CSVLogger
-from unet.build_unet import build_unet
-from evaluation.helpers import show_predictions,display
-from evaluation.mean_iou import mean_iou_score, mean_iou_score_ensemble
+from utils.unet.build_unet import build_unet
+from utils.evaluation.helpers import show_predictions,display
+from utils.evaluation.mean_iou import mean_iou_score, mean_iou_score_ensemble
 
 
 
-def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
+def k_fold(X,y,fold, batch , epochs , lr  , n_splits ,show ):
 
+    print()
+    print()
+    print("..................................................................................................")
+    print("..................................................................................................")
+    print()
     print("fold " , fold + 1 )
-
-    path_csv = "/content/drive/MyDrive/Metaldam/csv"
+    print()
+    print("..................................................................................................")
+    print("..................................................................................................")
+    print()
+    print()
 
     np.random.seed(42)  #default 42
     X = np.random.choice(X, size= len(X) , replace=False)
@@ -44,38 +51,38 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
     X_test = X[fold]
     y_test = y[fold]
 
-    X_train_image_normal = create_image(X_train)
-    y_train_image_normal  = create_mask(y_train, cat = True )
+    X_train_image_normal = process_x2(X_train)
+    y_train_image_normal  = process_y2(y_train, cat = True )
 
-    X_train_image_HSV = create_image(X_train , con = "HSV" )
-    y_train_image_HSV  = create_mask(y_train, cat = True )
+    X_train_image_HSV = process_x2(X_train , con = "HSV" )
+    y_train_image_HSV  = process_y2(y_train, cat = True )
 
-    X_train_image_YUV = create_image(X_train, con = "YUV")
-    y_train_image_YUV  = create_mask(y_train, cat = True )
+    X_train_image_YUV = process_x2(X_train, con = "YUV")
+    y_train_image_YUV  = process_y2(y_train, cat = True )
 
 
 
     #val
-    X_val_image_normal = create_image(X_val)
-    y_val_image_normal  = create_mask(y_val, cat = True )
+    X_val_image_normal = process_x2(X_val)
+    y_val_image_normal  = process_y2(y_val, cat = True )
 
-    X_val_image_HSV = create_image(X_val , con = "HSV" )
-    y_val_image_HSV  = create_mask(y_val, cat = True )
+    X_val_image_HSV = process_x2(X_val , con = "HSV" )
+    y_val_image_HSV  = process_y2(y_val, cat = True )
 
-    X_val_image_YUV = create_image(X_val, con = "YUV")
-    y_val_image_YUV  = create_mask(y_val, cat = True )
+    X_val_image_YUV = process_x2(X_val, con = "YUV")
+    y_val_image_YUV  = process_y2(y_val, cat = True )
 
 
 
     #test
-    X_test_image_normal = create_image(X_test, tensors= False)
-    y_test_image_normal = create_mask(y_test)
+    X_test_image_normal = process_x(X_test)
+    y_test_image_normal = process_y(y_test)
 
-    X_test_image_HSV = create_image(X_test , con = "HSV" , tensors= False)
-    y_test_image_HSV = create_mask(y_test)
+    X_test_image_HSV = process_x(X_test , con = "HSV" )
+    y_test_image_HSV = process_y(y_test)
 
-    X_test_image_YUV = create_image(X_test , con = "YUV" , tensors= False)
-    y_test_image_YUV = create_mask(y_test)
+    X_test_image_YUV = process_x(X_test , con = "YUV")
+    y_test_image_YUV = process_y(y_test)
 
 
 
@@ -87,8 +94,11 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
 
 
 
-    STEPS_PER_EPOCH = len(X_train)//BATCH
-    VALIDATION_STEPS = len(X_val)//BATCH
+    # STEPS_PER_EPOCH = len(X_train)//batch
+    # VALIDATION_STEPS = len(X_val)//batch
+
+    STEPS_PER_EPOCH = 1
+    VALIDATION_STEPS = 1
 
 
     dice_loss = sm.losses.DiceLoss(class_weights=np.array([0.20, 0.20, 0.20, 0.20,0.20]))
@@ -97,10 +107,7 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
     metrics = ["accuracy",sm.metrics.IOUScore(threshold=0.5), sm.metrics.FScore(threshold=0.5)]
 
 
-    path1 = path_csv + "/" + "normal_" + str(fold + 1) + ".csv"
 
-
-    log_csv = CSVLogger(path1, separator=',', append=False)
 
 
     print()
@@ -110,24 +117,23 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
     print()
     print("________________________________________________________________")
     print()
-    model_arc_normal = build_unet((256,256, 3),num_classes = 5 ,activation = "softmax",loss = total_loss , lr = lr , metrics = metrics )
+    model_arc_normal = build_unet((256,256, 3),loss = total_loss , lr = lr , metrics = metrics )
     model_arc_normal.fit(train_normal,
                 validation_data=val_normal,
                 steps_per_epoch=STEPS_PER_EPOCH,
                 validation_steps=VALIDATION_STEPS,
                 epochs=epochs,
-                callbacks= [log_csv])
-    for i in range(0,10):
+              )
 
-        show_predictions(X_test_image_normal[i:i+1] , y_test_image_normal[i],model_arc_normal)
+    if(show):
+
+        for i in range(0,5):
+
+            show_predictions(X_test_image_normal[i:i+1] , y_test_image_normal[i],model_arc_normal)
 
     mean_iou_score(model_arc_normal,X_test_image_normal,y_test_image_normal,5)
 
 
-    path2 = path_csv + "/" + "hsv_" + str(fold + 1) + ".csv"
-
-
-    log_csv = CSVLogger(path2, separator=',', append=False)
 
 
 
@@ -142,18 +148,20 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
     print("________________________________________________________________")
     print()
 
-    model_arc_HSV = build_unet((256,256, 3),num_classes = 5 ,activation = "softmax",loss = total_loss , lr = lr , metrics = metrics )
+    model_arc_HSV = build_unet((256,256, 3),loss = total_loss , lr = lr , metrics = metrics )
 
     model_arc_HSV.fit(train_HSV,
                 validation_data=val_HSV,
                 steps_per_epoch=STEPS_PER_EPOCH,
                 validation_steps=VALIDATION_STEPS,
                 epochs=epochs,
-                callbacks= [log_csv])
+                )
 
-    for i in range(0,10):
+    if(show):
 
-        show_predictions(X_test_image_HSV[i:i+1] , y_test_image_HSV[i],model_arc_HSV)
+        for i in range(0,5):
+
+            show_predictions(X_test_image_HSV[i:i+1] , y_test_image_HSV[i],model_arc_HSV)
 
     mean_iou_score(model_arc_HSV,X_test_image_HSV,y_test_image_HSV,5)
 
@@ -170,22 +178,21 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
     print("________________________________________________________________")
     print()
 
-    path3 = path_csv + "/" + "yuv_" + str(fold + 1) + ".csv"
 
-    log_csv = CSVLogger(path3, separator=',', append=False)
-
-    model_arc_YUV = build_unet((256,256, 3),num_classes = 5 ,activation = "softmax",loss = total_loss , lr = lr , metrics = metrics )
+    model_arc_YUV = build_unet((256,256, 3),loss = total_loss , lr = lr , metrics = metrics )
 
     model_arc_YUV.fit(train_YUV,
                 validation_data=val_YUV,
                 steps_per_epoch=STEPS_PER_EPOCH,
                 validation_steps=VALIDATION_STEPS,
                 epochs=epochs,
-                callbacks= [log_csv])
+                )
 
-    for i in range(0,10):
+    if(show):
 
-        show_predictions(X_test_image_YUV[i:i+1] , y_test_image_YUV[i],model_arc_YUV)
+        for i in range(0,5):
+
+            show_predictions(X_test_image_YUV[i:i+1] , y_test_image_YUV[i],model_arc_YUV)
 
     mean_iou_score(model_arc_YUV,X_test_image_YUV,y_test_image_YUV,5)
 
@@ -216,13 +223,17 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
 
     print()
     print("________________________________________________________________")
+    print()
     print("weighted ensemble " )
+    print()
     print("________________________________________________________________")
     print()
 
-    for i in range(0,10):
+    if(show):
 
-      display([X_test_image_normal[i:i+1] ,y_test_image_normal[i] ,  weighted_ensemble_prediction[i].reshape(256,256,1)])
+        for i in range(0,5):
+
+            display([X_test_image_normal[i:i+1] ,y_test_image_normal[i] ,  weighted_ensemble_prediction[i].reshape(256,256,1)])
 
     mean_iou_score_ensemble(weighted_ensemble_prediction,y_test_image_normal,n_classes = 5 )
 
@@ -232,12 +243,17 @@ def K_fold(X,y,fold, BATCH = 4 , epochs = 300, lr = 0.001 , n_splits = 6 ):
 
     print()
     print("________________________________________________________________")
+    print()
     print("un - weighted ensemble " )
+    print()
     print("________________________________________________________________")
     print()
 
-    for i in range(0,10):
+    if(show):
 
-      display([X_test_image_normal[i:i+1] ,y_test_image_normal[i] ,  un_weighted_ensemble_prediction[i].reshape(256,256,1)])
+        for i in range(0,5):
+
+            display([X_test_image_normal[i:i+1] ,y_test_image_normal[i] ,  un_weighted_ensemble_prediction[i].reshape(256,256,1)])
 
     mean_iou_score_ensemble(un_weighted_ensemble_prediction ,y_test_image_normal,n_classes = 5 )
+

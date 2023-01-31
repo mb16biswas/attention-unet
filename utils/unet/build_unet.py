@@ -1,8 +1,8 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Conv2D, BatchNormalization, Activation, MaxPool2D, Concatenate, Input, UpSampling2D
-from tensorflow.keras.models import Model
-from tf.keras.losses import SparseCategoricalCrossentropy
-from unet.attention import ChannelAttention, SpatialAttention
+from keras.layers import Conv2D, BatchNormalization, Activation, MaxPool2D, Concatenate, Input, UpSampling2D
+from keras.models import Model
+from keras.losses import SparseCategoricalCrossentropy
+from utils.unet.attention import ChannelAttention, SpatialAttention
 
 def conv_block(inputs, filters, pool=True,num = 0):
 
@@ -43,16 +43,20 @@ def conv_block(inputs, filters, pool=True,num = 0):
 
 def build_unet(shape, num_classes = 5 ,activation = "softmax" ,loss = SparseCategoricalCrossentropy ,optimizer = tf.keras.optimizers.Adam ,  lr = 0.0001, compile = True , metrics = ["accuracy"]   ):
 
-    print("--------config-------------------------")
-    print("shape " , shape)
-    print("num_classes " , num_classes)
+    print()
+    print("--------models config-------------------------")
+    print()
+    print("input shape " , shape)
+    print("num_classes in mask " , num_classes)
     print("activation ",activation)
     print("optimizer ",optimizer)
     print("lr ",lr)
     print("compile ", compile)
     print("loss ", loss)
     print("metics" , metrics )
+    print()
     print("----------------------------------------")
+    print()
 
     inputs = Input(shape)
 

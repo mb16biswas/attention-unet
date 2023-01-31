@@ -1,6 +1,6 @@
 import numpy as np
-from tf.keras.metrics import MeanIoU
-from evaluation.helpers import pred
+from keras.metrics import MeanIoU
+from utils.evaluation.helpers import pred
 
 
 def mean_iou_score(model,X_val,y_val,n_classes ):
@@ -19,13 +19,14 @@ def mean_iou_score(model,X_val,y_val,n_classes ):
     class4_IoU = values[3,3]/(values[3,3] + values[3,0] + values[3,1] + values[3,2] + values[3,4] + values[0,3]+ values[1,3]+ values[2,3] + values[4,3])
     class5_IoU = values[4,4]/(values[4,4] + values[4,0] + values[4,1] + values[4,2]  +values[4,3] + values[0,4]+ values[1,4]+ values[2,4] + values[3,4])
 
-
-    print("IoU for class1 is: ", class1_IoU)
-    print("IoU for class2 is: ", class2_IoU)
-    print("IoU for class3 is: ", class3_IoU)
-    print("IoU for class4 is: ", class4_IoU)
-    print("IoU for class5 is: ", class5_IoU)
-    print("IoU for class5 is mean: ", (class1_IoU + class2_IoU + class3_IoU + class4_IoU + class5_IoU)/4)
+    print()
+    print("IoU for class 0 is: ", class1_IoU)
+    print("IoU for class 1 is: ", class2_IoU)
+    print("IoU for class 2 is: ", class3_IoU)
+    print("IoU for class 3 is: ", class4_IoU)
+    print("IoU for class 4 is: ", class5_IoU)
+    print("Mean Iou: ", (class1_IoU + class2_IoU + class3_IoU + class4_IoU + class5_IoU)/4)
+    print()
 
 
 
@@ -54,10 +55,11 @@ def mean_iou_score_ensemble(y_preds,y_actual,n_classes = 5 ):
     class4_IoU = values[3,3]/(values[3,3] + values[3,0] + values[3,1] + values[3,2] + values[3,4] + values[0,3]+ values[1,3]+ values[2,3] + values[4,3])
     class5_IoU = values[4,4]/(values[4,4] + values[4,0] + values[4,1] + values[4,2]  +values[4,3] + values[0,4]+ values[1,4]+ values[2,4] + values[3,4])
 
-
-    print("IoU for class1 is: ", class1_IoU)
-    print("IoU for class2 is: ", class2_IoU)
-    print("IoU for class3 is: ", class3_IoU)
-    print("IoU for class4 is: ", class4_IoU)
-    print("IoU for class5 is: ", class5_IoU)
-    print("IoU for class5 is mean: ", (class1_IoU + class2_IoU + class3_IoU + class4_IoU + class5_IoU)/4)
+    print()
+    print("IoU for class 0 is: ", class1_IoU)
+    print("IoU for class 1 is: ", class2_IoU)
+    print("IoU for class 2 is: ", class3_IoU)
+    print("IoU for class 3 is: ", class4_IoU)
+    print("IoU for class 4 is: ", class5_IoU)
+    print("Mean Iou: ", (class1_IoU + class2_IoU + class3_IoU + class4_IoU + class5_IoU)/4)
+    print()

@@ -50,7 +50,7 @@ for f in sorted(os.listdir(path_label_agu)):
 
 
 
-for i in range(0,6):
+for i in range(0,args.n_splits):
 
     k_fold(img,labels,i ,batch = args.batch, epochs = args.epochs , lr = args.lr , n_splits = args.n_splits ,show = args.show)
 

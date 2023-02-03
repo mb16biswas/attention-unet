@@ -94,11 +94,10 @@ def k_fold(X,y,fold, batch , epochs , lr  , n_splits ,show ):
 
 
 
-    # STEPS_PER_EPOCH = len(X_train)//batch
-    # VALIDATION_STEPS = len(X_val)//batch
+    STEPS_PER_EPOCH = len(X_train)//batch
+    VALIDATION_STEPS = len(X_val)//batch
 
-    STEPS_PER_EPOCH = 1
-    VALIDATION_STEPS = 1
+
 
 
     dice_loss = sm.losses.DiceLoss(class_weights=np.array([0.20, 0.20, 0.20, 0.20,0.20]))

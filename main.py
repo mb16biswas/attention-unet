@@ -13,7 +13,7 @@ parser.add_argument('--images_path', type=str, default = './',
 parser.add_argument('--masks_path', type=str, default = './',
                     help='Path where the masks folder is stored')
 
-parser.add_argument('--epochs', type=int, default = 200,
+parser.add_argument('--epochs', type=int, default = 250,
                     help='Number of Epochs for training')
 
 parser.add_argument('--batch', type=int, default = 4,

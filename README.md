@@ -45,10 +45,8 @@ Available arguments:
 - `--show`: Showing the comparison among original, ground-truth and predicted images. Default = False
 
 
-```
-3. The increase.py is for increasing the datasize.
 
-```
+3. The increase.py is for increasing the datasize.
 
 ```
 python3 main.py --images_path "images_path" --masks_path "masks_path" --target_folder "target_folder"
@@ -58,6 +56,6 @@ Available arguments:
 - `--images_path`: Path where the images folder is stored. Default = ./
 - `--masks_path`: Path where the masks folder is stored. Default = ./
 - `--target_folder`: arget folder where the images folder and the maskes folder are stored. Default = ./
-- `--n`: Increase the data n number of times. Default = 6 
+- `--n`: Increase the data n number of times. Default = 6
 
 

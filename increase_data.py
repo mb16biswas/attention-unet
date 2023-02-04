@@ -26,7 +26,7 @@ parser.add_argument('--target_folder', type=str, default = './',
 
 
 
-parser.add_argument('--n', type=int, default = 0,
+parser.add_argument('--n', type=int, default = 6,
                     help='Increase the data n number of times')
 
 
@@ -76,4 +76,3 @@ elif(n == 10):
 else:
 
     print("invalid ..")
-    new_dataset_len(target)

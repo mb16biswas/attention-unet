@@ -26,7 +26,7 @@ parser.add_argument('--lr', type=float, default = 1e-3,
                     help='Learning rate for training')
 
 parser.add_argument('--show', type=bool, default = False,
-                    help='showing the ')
+                    help='Showing the comparison among original, ground-truth and predicted images')
 
 args = parser.parse_args()
 

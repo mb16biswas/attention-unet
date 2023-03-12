@@ -32,7 +32,7 @@ pip3 install -r requirements.txt
 Then, run the code using linux terminal as follows:
 
 ```
-python3 main.py --data_directory --images_path "images_path" --masks_path "masks_path"
+python3 main.py  --images_path "images_path" --masks_path "masks_path"
 ```
 
 Available arguments:
@@ -46,10 +46,10 @@ Available arguments:
 
 
 
-3. The increase.py is for increasing the datasize.
+3. The increase_data.py is for increasing the datasize.
 
 ```
-python3 main.py --images_path "images_path" --masks_path "masks_path" --target_folder "target_folder"
+python3 increase_data.py --images_path "images_path" --masks_path "masks_path" --target_folder "target_folder"
 ```
 
 Available arguments:
@@ -57,5 +57,4 @@ Available arguments:
 - `--masks_path`: Path where the masks folder is stored. Default = ./
 - `--target_folder`: arget folder where the images folder and the maskes folder are stored. Default = ./
 - `--n`: Increase the data n number of times. Default = 6
-
 

@@ -1,6 +1,19 @@
 # Image Segmentation of Metallographic Images
 
 **Microstructural segmentation using a union of attention guided U-Net models with different color transformed image**
+```
+@article{biswas2023microstructural,
+  title={Microstructural segmentation using a union of attention guided U-Net models with different color transformed images},
+  author={Biswas, Momojit and Pramanik, Rishav and Sen, Shibaprasad and Sinitca, Aleksandr and Kaplun, Dmitry and Sarkar, Ram},
+  journal={Scientific Reports},
+  volume={13},
+  number={1},
+  pages={5737},
+  year={2023},
+  publisher={Nature Publishing Group UK London}
+}
+
+```
 
 
 # Dataset Link

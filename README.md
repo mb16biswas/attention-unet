@@ -1,6 +1,13 @@
 # Image Segmentation of Metallographic Images
 
 **Microstructural segmentation using a union of attention guided U-Net models with different color transformed image**
+
+Find the original paper [here](https://www.nature.com/articles/s41598-023-32318-9#Sec4).
+<p align="center">
+  <img src="https://www.nature.com/articles/s41598-023-32318-9/figures/2" width="600" title="Overall Pipeline">
+</p>
+
+
 ```
 @article{biswas2023microstructural,
   title={Microstructural segmentation using a union of attention guided U-Net models with different color transformed images},

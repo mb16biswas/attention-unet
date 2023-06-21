@@ -4,9 +4,7 @@
 
 Find the original paper [here](https://www.nature.com/articles/s41598-023-32318-9#Sec4).
 
-<p align="center">
-  <img src="./Overall_Pipeline.jpg" width="600" title="Overall Pipeline">
-</p>
+![Overall_Pipeline](https://github.com/mb16biswas/attention-unet/assets/64213233/a2268d6a-2b83-42b9-959d-279703348ca9)
 
 ```
 @article{biswas2023microstructural,
